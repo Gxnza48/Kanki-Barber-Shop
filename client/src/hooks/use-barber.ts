@@ -210,8 +210,12 @@ export function useCreateAppointment() {
 
       if (error) throw new Error("Error al crear la reserva");
       
-      // Enviar notificación de telegram de forma asíncrona
-      sendTelegramNotification(newAppointment).catch(console.error);
+      // Esperar a que se envíe la notificación antes de terminar
+      try {
+        await sendTelegramNotification(newAppointment);
+      } catch (err) {
+        console.error("Error enviando notificación (no crítico):", err);
+      }
 
       return newAppointment;
     },
