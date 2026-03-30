@@ -25,6 +25,8 @@ const sendTelegramNotification = async (appointment: any) => {
     return;
   }
 
+  const ids = chatId.split(',').map((id: string) => id.trim());
+
   try {
     const message = `<b>✅ ¡Hola! Tenés un nuevo turno.</b>
 
@@ -36,15 +38,18 @@ const sendTelegramNotification = async (appointment: any) => {
 Cliquéa acá para administrarlo:
 https://kanki.vercel.app/admin`;
 
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode: 'HTML'
+    // Enviar a todos los IDs configurados
+    await Promise.all(ids.map((id: string) => 
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: id,
+          text: message,
+          parse_mode: 'HTML'
+        })
       })
-    });
+    ));
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
   }
