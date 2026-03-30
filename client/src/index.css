@@ -1,0 +1,181 @@
+@font-face {
+  font-family: 'GraffityFont';
+  src: url('/fonts/graffityFont.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Kanki Barber — White & Gold Theme */
+  --font-display: 'Cinzel', serif;
+  --font-logo: 'Cinzel', serif;
+  --font-body: 'Outfit', sans-serif;
+
+  /* White Background */
+  --background: 0 0% 100%;          /* #FFFFFF */
+  --foreground: 0 0% 10%;           /* #1A1A1A */
+
+  /* Gold Primary (#b38444) */
+  --primary: 35 45% 48%;           /* #b38444 */
+  --primary-foreground: 0 0% 100%;
+
+  --card: 0 0% 98%;
+  --card-foreground: 0 0% 10%;
+  --card-border: 0 0% 90%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 0 0% 90%;
+
+  --secondary: 0 0% 92%;
+  --secondary-foreground: 0 0% 10%;
+
+  --muted: 0 0% 95%;
+  --muted-foreground: 0 0% 45%;
+
+  --accent: 35 45% 48%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 0 0% 88%;
+  --input: 0 0% 88%;
+  --ring: 35 45% 48% / 0.5;
+
+  --radius: 0.625rem;
+}
+
+/* Force light mode globally */
+html {
+  color-scheme: light;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply tracking-wide;
+  }
+
+  /* Focused inputs green glow */
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.4);
+  }
+
+  /* Better scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.6);
+  }
+}
+
+@layer components {
+  /* === Kanki Glass Card === */
+  .kanki-card {
+    @apply bg-card border border-border/60 rounded-2xl shadow-xl;
+  }
+
+  /* === Lime Glow Button === */
+  .btn-lime {
+    @apply bg-primary text-primary-foreground font-bold px-6 py-3 rounded-xl
+           transition-all duration-200 hover:brightness-110 active:scale-95
+           shadow-[0_4px_16px_rgba(179,132,68,0.25)];
+  }
+
+  /* === Neon underline === */
+  .neon-underline {
+    @apply relative;
+  }
+  .neon-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-[2px] w-full bg-primary
+           shadow-[0_0_8px_rgba(179,132,68,0.4)];
+  }
+
+  /* === Stat card === */
+  .stat-card {
+    @apply kanki-card p-5 flex flex-col gap-1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Gold text glow */
+  .text-glow {
+    text-shadow: 0 0 20px hsl(35 45% 48% / 0.3), 0 0 40px hsl(35 45% 48% / 0.1);
+  }
+
+  /* Subtle animated gradient background for LIGHT theme */
+  .kanki-hero-bg {
+    background: radial-gradient(ellipse at 20% 50%, hsl(35 45% 48% / 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, hsl(35 45% 48% / 0.03) 0%, transparent 50%),
+                hsl(0 0% 100%);
+  }
+
+  /* Dark card with green top border */
+  .kanki-accent-card {
+    @apply kanki-card border-t-2 border-t-primary;
+  }
+
+  /* Pulse glow animation */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px hsl(35 45% 48% / 0.2); }
+  50%       { box-shadow: 0 0 24px hsl(35 45% 48% / 0.5), 0 0 48px hsl(35 45% 48% / 0.1); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+/* Graffiti / barber stripe decoration */
+.stripe-decoration {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    hsl(35 45% 48% / 0.03) 8px,
+    hsl(35 45% 48% / 0.03) 16px
+  );
+}
